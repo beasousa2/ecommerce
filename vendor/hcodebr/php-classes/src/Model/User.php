@@ -47,7 +47,7 @@ class User extends Model
 
     public static function verifyLogin($inadmin = true)
     {
-          if (!isset($_SESSION[User::SESSION]) || !$_SESSION[User::SESSION] || !(int)$_SESSION[User::SESSION]["iduser"] > 0 || (bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin)
+          if (!isset($_SESSION[User::SESSION]) || $_SESSION[User::SESSION] === NULL || !(int)$_SESSION[User::SESSION]["iduser"] > 0 || (bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin)
           {
 
               header("Location: /index.php/admin/login");
@@ -55,9 +55,11 @@ class User extends Model
           }
     }
 
-    public function logout()
+    public static function logout()
     {
-      $_SESSION[User::SESSION] = NULL;
+      session_destroy();
+      header("Location: /index.php/admin/login");
+      exit;
     }
 
 
